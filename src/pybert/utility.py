@@ -1244,7 +1244,7 @@ def getwave_step_resp(ami_model):
     tmp = array([0.5] * 1024)
     max_tries = 10
     n_tries = 0
-    while max(tx_s) < 0 and n_tries < max_tries:  # Wait for step to rise, but not indefinitely.
+    while max(tx_s) <= 0 and n_tries < max_tries:  # Wait for step to rise, but not indefinitely.
         tx_s, _ = ami_model.getWave(tmp)
         n_tries += 1
     if n_tries == max_tries:
