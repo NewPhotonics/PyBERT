@@ -386,9 +386,9 @@ I cannot continue.\nPlease, select 'Use GetWave' and try again.",
                     return
                 ctle_h = diff(ctle_s)
                 temp = ctle_h.copy()
-                temp.resize(len(t))
+                temp.resize(len(t), refcheck=False)
                 ctle_H = fft(temp)
-                ctle_h.resize(len(chnl_h))
+                ctle_h.resize(len(chnl_h), refcheck=False)
                 ctle_out_h = convolve(ctle_h, tx_out_h)[: len(chnl_h)]
             else:  # Init() only.
                 ctle_out_h_padded = pad(
@@ -405,7 +405,7 @@ I cannot continue.\nPlease, select 'Use GetWave' and try again.",
                 )
                 ctle_H = fft(ctle_out_h_padded) / fft(tx_out_h_padded)  # ToDo: I think this is wrong.
                 ctle_h = irfft(ctle_H)  # I shouldn't be sending the output of `fft()` into `irfft()`, should I?
-                ctle_h.resize(len(chnl_h))
+                ctle_h.resize(len(chnl_h), refcheck=False)
             ctle_s = ctle_h.cumsum()
             ctle_out = convolve(rx_in, ctle_h)
         else:
@@ -416,7 +416,7 @@ I cannot continue.\nPlease, select 'Use GetWave' and try again.",
                     ctle_h = diff(ctle_h)  # impulse response is derivative of step response.
                 else:
                     ctle_h *= ts  # Normalize to (V/sample)
-                ctle_h.resize(len(t))
+                ctle_h.resize(len(t), refcheck=False)
                 ctle_H = fft(ctle_h)
                 ctle_H *= sum(ctle_h) / ctle_H[0]
             else:
